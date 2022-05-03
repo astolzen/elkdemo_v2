@@ -1,0 +1,6 @@
+---
+collections:
+- awx.awx
+- google.cloud
+- community.general
+- ansible.posix

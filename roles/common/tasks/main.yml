@@ -1,0 +1,12 @@
+- name: Import Elastic Key
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ el_repo_key }}"
+
+- name: Copy elastic repo
+  ansible.builtin.copy: src=elastic.repo dest=/etc/yum.repos.d/elastic.repo owner=root group=root mode=0644
+
+- name: Install JDK
+  ansible.builtin.dnf: 
+    name: "{{ jdk_rpm }}"
+    state: latest

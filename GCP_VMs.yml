@@ -1,0 +1,28 @@
+- name: create a disk
+  google.cloud.gcp_compute_disk:
+    name: "{{ item }}-disk"
+    size_gb: "{{ gce_disksize }}"
+    source_image: "{{ gce_source }}"
+    zone: "{{ gce_zone }}"
+    auth_kind: serviceaccount
+    state: present
+  register: disk
+
+- name: create a instance
+  google.cloud.gcp_compute_instance:
+    name: "{{ item }}"
+    machine_type: "{{ gce_type }}"
+    disks:
+    - auto_delete: 'true'
+      boot: 'true'
+      source: "{{ disk }}"
+    network_interfaces:
+    - access_configs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT  
+    zone: "{{ gce_zone }}"
+    tags:
+      items: "{{ gce_network_tags }}"
+    auth_kind: serviceaccount
+    state: present
+

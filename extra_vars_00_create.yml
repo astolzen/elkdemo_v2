@@ -1,0 +1,9 @@
+---
+gce_type: n1-standard-2
+gce_zone: us-central1-a
+gce_source: projects/centos-cloud/global/images/family/centos-stream-8
+gce_disksize: 50
+gce_machines:
+  - elastic
+  - logstash
+gce_network_tags: http-server

@@ -1,0 +1,14 @@
+- name: dnspython
+  ansible.builtin.pip:
+#    name: dnspython
+    name: dnspython==1.16.0
+
+- name: DDNS
+  community.general.nsupdate:
+    key_name: "{{ ddns_key_name }}"
+    key_secret: "{{ ddns_key_secret }}"
+    server: "{{ ddns_key_server }}"
+    zone: "{{ ddns_key_zone }}"
+    record: "{{ gce_name }}"
+    #record: "{{ name }}"
+    value: "{{ ansible_ssh_host }}"

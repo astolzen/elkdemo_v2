@@ -1,0 +1,45 @@
+- name: Enable Stream
+  ansible.builtin.dnf: 
+    name: "{{ nginx_stream }}"
+    state: present
+  notify: restart_services
+
+- name: Install EPEL
+  ansible.builtin.dnf: 
+    name: epel-release
+    state: latest
+
+- name: Install Packages
+  ansible.builtin.dnf: 
+    name: "{{ nginx_install_packages }}"
+    state: present
+  notify: restart_services
+
+- name: Copy config file
+  ansible.builtin.template: 
+    src: nginx.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_services  
+
+- name: Create htpasswd
+  community.general.htpasswd:
+    path: /etc/nginx/.htpasswd
+    name: "{{ nginx_user }}"
+    password: "{{ nginx_passwd }}"
+    owner: nginx
+    mode: 0644
+  notify: restart_services  
+
+- name: Install Pyton Dependency for semanage
+  ansible.builtin.dnf:
+    name: python3-libsemanage
+    state: latest
+
+- name: Set httpd_can_network_connect flag 
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
