@@ -208,7 +208,7 @@ Define the Workflow with the folowwing steps:
 The steps 2, 4 and 5 of the Workflow should have a branch *on failure*, pointing to the *delete VM* template which will remove the VMs from the Cloud environment.
 
 Here is an example graph of the workflow in Ansible Controller
-![Workflow](workflow.png "Workflow)
+![Workflow](workflow.png "Workflow")
 
 
 ## FAQ:
